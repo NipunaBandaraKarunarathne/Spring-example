@@ -34,13 +34,34 @@ public class UserService {
         return userDTO;
     }
 
+    // public UserDTO updateUser(UserDTO userDTO) {
+    //     userRepo.save(modelMapper.map(userDTO,User.class));
+    //     return userDTO;
+    // }
     public UserDTO updateUser(UserDTO userDTO) {
-        userRepo.save(modelMapper.map(userDTO,User.class));
-        return userDTO;
+
+        if (!userRepo.existsById(userDTO.getId())) {
+            throw new RuntimeException("User not found");
+        }
+
+        User user = modelMapper.map(userDTO, User.class);
+        User updatedUser = userRepo.save(user);
+
+        return modelMapper.map(updatedUser, UserDTO.class);
     }
 
-    public String deleteUser(UserDTO userDTO) {
-        userRepo.delete(modelMapper.map(userDTO, User.class));
+    // public String deleteUser(UserDTO userDTO) {
+    //     userRepo.delete(modelMapper.map(userDTO, User.class));
+    //     return "User deleted successfully";
+    // }
+    public String deleteUser(int id) {
+
+        if (!userRepo.existsById(id)) {
+            throw new RuntimeException("User not found");
+        }
+
+        userRepo.deleteById(id);
+
         return "User deleted successfully";
     }
 
