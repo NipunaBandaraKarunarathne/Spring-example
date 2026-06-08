@@ -65,4 +65,12 @@ public class UserService {
         return "User deleted successfully";
     }
 
+    public UserDTO getUserById(int id) {
+
+        User user = userRepo.findById(id)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        return modelMapper.map(user, UserDTO.class);
+    }
+
 }
