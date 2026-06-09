@@ -29,9 +29,16 @@ public class UserService {
         }.getType());
     }
 
+    // public UserDTO saveUser(UserDTO userDTO) {
+    //     userRepo.save(modelMapper.map(userDTO, User.class));
+    //     return userDTO;
+    // }
     public UserDTO saveUser(UserDTO userDTO) {
-        userRepo.save(modelMapper.map(userDTO, User.class));
-        return userDTO;
+
+        User savedUser = userRepo.save(
+                modelMapper.map(userDTO, User.class));
+
+        return modelMapper.map(savedUser, UserDTO.class);
     }
 
     // public UserDTO updateUser(UserDTO userDTO) {
